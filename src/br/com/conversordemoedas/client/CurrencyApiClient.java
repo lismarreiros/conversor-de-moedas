@@ -1,5 +1,6 @@
 package br.com.conversordemoedas.client;
 
+import br.com.conversordemoedas.services.Currency;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,13 +35,14 @@ public class CurrencyApiClient {
                     .send(request, HttpResponse.BodyHandlers.ofString());
             String json = response.body();
             System.out.println(json);
+            gson.fromJson(json, Currency.class);
         } catch (IllegalArgumentException | IOException | InterruptedException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void optionOne() {
-
-    }
+//    public double getDolarToArgentinePeso () {
+//        return "";
+//    }
 }
 
