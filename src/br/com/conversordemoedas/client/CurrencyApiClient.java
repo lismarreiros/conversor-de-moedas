@@ -1,7 +1,7 @@
 package br.com.conversordemoedas.client;
 
-import br.com.conversordemoedas.services.Currency;
-import com.google.gson.FieldNamingPolicy;
+import br.com.conversordemoedas.services.CurrencyConversion;
+import br.com.conversordemoedas.model.ExchangeRateResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -12,19 +12,18 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class CurrencyApiClient {
-    String search;
+    String baseCode;
 
-    public CurrencyApiClient(String search)  {
-        this.search = search;
+    public CurrencyApiClient(String baseCode)  {
+        this.baseCode = baseCode;
     }
 
     Gson gson = new GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
             .setPrettyPrinting()
             .create();
 
     public void connection() {
-        String address = "https://v6.exchangerate-api.com/v6/4eedbc76f15cf16e98ab04d9/latest/" + search;
+        String address = "https://v6.exchangerate-api.com/v6/4eedbc76f15cf16e98ab04d9/latest/" + baseCode;
 
         try {
             HttpClient client = HttpClient.newHttpClient();
@@ -35,14 +34,14 @@ public class CurrencyApiClient {
                     .send(request, HttpResponse.BodyHandlers.ofString());
             String json = response.body();
             System.out.println(json);
-            gson.fromJson(json, Currency.class);
+            ExchangeRateResponse currencySearch = gson.fromJson(json, ExchangeRateResponse.class);
+            CurrencyConversion myCurrency = new CurrencyConversion(currencySearch);
+            System.out.println(myCurrency.getCode());
+            System.out.println(myCurrency.getConversionRates());
         } catch (IllegalArgumentException | IOException | InterruptedException e) {
             System.out.println(e.getMessage());
         }
     }
 
-//    public double getDolarToArgentinePeso () {
-//        return "";
-//    }
 }
 

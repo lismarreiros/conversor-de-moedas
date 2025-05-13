@@ -1,4 +1,4 @@
-package br.com.conversordemoedas.menu;
+package br.com.conversordemoedas.app;
 
 import java.util.Scanner;
 
