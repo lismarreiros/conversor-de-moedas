@@ -1,10 +1,10 @@
 package br.com.conversordemoedas;
 
-import br.com.conversordemoedas.client.CurrencyApiClient;
+import br.com.conversordemoedas.app.MenuHandler;
 
 public class Main {
     public static void main(String[] args) {
-        CurrencyApiClient client = new CurrencyApiClient("USD");
-        client.connection();
+        MenuHandler menu = new MenuHandler();
+        menu.showMenu();
     }
 }

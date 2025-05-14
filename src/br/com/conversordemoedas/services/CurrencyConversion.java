@@ -20,4 +20,9 @@ public class CurrencyConversion {
     public Map<String, Double> getConversionRates() {
         return conversionRates;
     }
+
+    public double getConversionRate(String base_code) {
+        double rate = conversionRates.get(base_code);
+        return rate;
+    }
 }

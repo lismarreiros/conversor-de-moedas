@@ -1,5 +1,6 @@
 package br.com.conversordemoedas.client;
 
+import br.com.conversordemoedas.services.CurrencyCalculator;
 import br.com.conversordemoedas.services.CurrencyConversion;
 import br.com.conversordemoedas.model.ExchangeRateResponse;
 import com.google.gson.Gson;
@@ -13,9 +14,12 @@ import java.net.http.HttpResponse;
 
 public class CurrencyApiClient {
     String baseCode;
+    String secondBaseCode;
+    CurrencyConversion myCurrency;
 
-    public CurrencyApiClient(String baseCode)  {
+    public CurrencyApiClient(String baseCode, String secondBaseCode)  {
         this.baseCode = baseCode;
+        this.secondBaseCode = secondBaseCode;
     }
 
     Gson gson = new GsonBuilder()
@@ -33,15 +37,16 @@ public class CurrencyApiClient {
             HttpResponse<String> response = client
                     .send(request, HttpResponse.BodyHandlers.ofString());
             String json = response.body();
-            System.out.println(json);
             ExchangeRateResponse currencySearch = gson.fromJson(json, ExchangeRateResponse.class);
-            CurrencyConversion myCurrency = new CurrencyConversion(currencySearch);
-            System.out.println(myCurrency.getCode());
-            System.out.println(myCurrency.getConversionRates());
+            myCurrency = new CurrencyConversion(currencySearch);
         } catch (IllegalArgumentException | IOException | InterruptedException e) {
             System.out.println(e.getMessage());
         }
     }
 
+    public double getQuote() {
+        double quote = myCurrency.getConversionRate(secondBaseCode);
+        return quote;
+    }
 }
 
