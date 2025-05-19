@@ -8,17 +8,15 @@ import java.util.Scanner;
 public class MenuHandler {
         Scanner read = new Scanner(System.in);
         int choice = 0;
-        String inputValue = "Digite o valor que deseja converter:";
         String outputValue;
-        double quantity = 0;
+        double quantity;
         CurrencyCalculator calculator = new CurrencyCalculator();
         double quote;
         double result;
 
     public void showMenu() {
-        while (choice != (7)) {
+        while (true) {
             System.out.println("*********************************************");
-            System.out.println("");
             System.out.println("1) Dólar =>> Peso Argentino");
             System.out.println("2) Peso Argentino =>> Dólar");
             System.out.println("3) Dólar =>> Real Brasileiro");
@@ -27,17 +25,42 @@ public class MenuHandler {
             System.out.println("6) Peso Colombiano =>> Dólar");
             System.out.println("7) Sair");
             System.out.println("Escolha uma opção válida:");
-            choice = read.nextInt();
 
-            if (choice == 7) {
-                System.out.println("*********************************************");
-                break;
+            try {
+                choice = Integer.parseInt(read.nextLine());
+
+                if (choice < 1 || choice > 7) {
+                    System.out.println("Opção inválida. Por favor, escolha entre 1 e 7.\n");
+                    continue;
+                }
+
+                if (choice == 7) {
+                    System.out.println("Saindo do programa...");
+                    break;
+                }
+
+                double input;
+                while (true) {
+                    System.out.println("Digite o valor que deseja converter:");
+                    try {
+                      String inputValue = read.nextLine();
+                      input = Double.parseDouble(inputValue);
+                        if (input < 0) {
+                            System.out.println("Valor não pode ser negativo. Tente novamente.");
+                        } else {
+                            quantity = input;
+                            break;
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Entrada inválida. Digite um número válido (ex: 100.50)");
+                    }
+                }
+
+                getChoice();
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida. Digite um número válido.\n");
             }
 
-            System.out.println("*********************************************");
-            System.out.println(inputValue);
-            quantity = read.nextDouble();
-            getChoice();
         }
     }
 

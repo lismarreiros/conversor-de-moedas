@@ -1,4 +1,4 @@
-# Conversor de Moedas
+# 🪙 Conversor de Moedas
 
 ### Descrição
 Projeto desenvolvido como parte do desafio Alura: Challenge ONE - Conversor de Moedas
